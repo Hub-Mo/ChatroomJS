@@ -1,0 +1,19 @@
+body{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+#msn {
+    border: 1px solid red;
+    height: 500px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+}
+#display{
+    border: 1px solid green;
+    width: 450px;
+    height: 450px;
+}
