@@ -28,13 +28,12 @@ socket.on('user-connected', data => {
     usersUpdater(data);
 })
 
-socket.on('showUsers', data => {
+/*socket.on('showUsers', data => {
     onlineDisplay.append(data[socket.id])
-})
+})*/
 
 socket.on('userDisconnected', data => {
     usersUpdater(data);
-
 })
 
 
@@ -49,10 +48,10 @@ function displayMessage(message){
 }
 function usersUpdater(message){
     const popup = document.createElement('p');
-    popup.innerText = `${message} left the chat`;
-    onlineUsersDisplay.append(popup);
+    popup.innerText = message;
+    onlineDisplay.append(popup);
     setTimeout(function(){
-        onlineUsersDisplay.removeChild(popup);
+        onlineDisplay.removeChild(popup);
     }, 4000);
 }
 
