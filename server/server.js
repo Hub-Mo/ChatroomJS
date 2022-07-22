@@ -28,9 +28,10 @@ io.on('connection', socket => {
     // new user connected
     socket.on('new-user', name => {
         user[socket.id] = name;
-        onlineUsers.push(name);
+        console.log(socket.id)
+        onlineUsers.push(user[socket.id]);
         io.emit('user-connected', `${user[socket.id]} joined the chat`);
-        io.emit('showUsers', user);
+        //io.emit('showUsers', user);
         io.emit('onlinePeople', onlineUsers);
         console.log(onlineUsers);
     })
@@ -43,18 +44,18 @@ io.on('connection', socket => {
 
     // user disconnecting
     socket.on('disconnecting', () => {
-        deletingOfflineUsers(socket.id);
-        io.emit('userDisconnected', user[socket.id]);
+        deletingOfflineUsers(user[socket.id]);
+        io.emit('userDisconnected', `${user[socket.id]} left the chat`);
         io.emit('onlinePeople', onlineUsers);
-        console.log(onlineUsers);
+        //console.log(onlineUsers);
     })
 
 
 });
 
 function deletingOfflineUsers(user){
-    let index = onlineUsers.indexOf(user) + 1;
-    console.log(index);
+    let index = onlineUsers.indexOf(user);
+    //console.log(index);
     onlineUsers.splice(index, 1);
     return onlineUsers;
 }
