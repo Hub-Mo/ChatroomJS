@@ -19,10 +19,51 @@ const io = require('socket.io')(server);
 
 /* work work work work work work work work work work*/
 
+
+
+
+user = {};
+onlineUsers = [];
 io.on('connection', socket => {
-    socket.on('sendMessage', message => {
-        socket.broadcast.emit('sendMessage', message);
+    // new user connected
+    socket.on('new-user', name => {
+        user[socket.id] = name;
+        onlineUsers.push(name);
+        io.emit('user-connected', `${user[socket.id]} joined the chat`);
+        io.emit('showUsers', user);
+        io.emit('onlinePeople', onlineUsers);
+        console.log(onlineUsers);
     })
 
+
+    // sending a messgae
+    socket.on('sendMessage', message => {
+        io.emit('sendMessage', message);
+    })
+
+    // user disconnecting
+    socket.on('disconnecting', () => {
+        deletingOfflineUsers(socket.id);
+        io.emit('userDisconnected', user[socket.id]);
+        io.emit('onlinePeople', onlineUsers);
+        console.log(onlineUsers);
+    })
+
+
 });
+
+function deletingOfflineUsers(user){
+    let index = onlineUsers.indexOf(user) + 1;
+    console.log(index);
+    onlineUsers.splice(index, 1);
+    return onlineUsers;
+}
+
+
+
+
+
+
+
+
 
