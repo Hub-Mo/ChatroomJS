@@ -2,7 +2,7 @@ let socket = io.connect();
 
 
 const theInput = document.getElementById('sendForm');
-const display = document.getElementById('display');
+let display = document.getElementById('display');
 const input = document.getElementById('message');
 // popup updater of people joining an leaving ELEMENT
 const onlineUsersDisplay = document.getElementById('online-users');
@@ -23,6 +23,8 @@ theInput.addEventListener('submit', e => {
 
 socket.on('sendMessage', data => {
     displayMessage(data);
+    display.scrollTop =  display.scrollHeight;
+
 })
 socket.on('user-connected', data => {
     usersUpdater(data);
@@ -52,11 +54,11 @@ function usersUpdater(message){
     onlineDisplay.append(popup);
     setTimeout(function(){
         onlineDisplay.removeChild(popup);
-    }, 4000);
+    }, 3000);
 }
 
 function showOnlineUsers(array){
-    onlineUsersDisplay.innerHTML = "";
+    onlineUsersDisplay.innerHTML = " ";
 
     array.forEach(user =>{
         console.log(user)
